@@ -18,6 +18,9 @@
 
 ```
 text-splitter/
+├── docs/
+│   ├── ARCHITECTURE.md            # アーキテクチャ設計書
+│   └── MVP.md                     # 要件定義（MVP）
 ├── src/
 │   ├── components/
 │   │   ├── TextInput.tsx          # 長文入力テキストエリア
