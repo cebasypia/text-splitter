@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { normalizeLineEndings } from '../utils/normalizeLineEndings';
-import { splitByCodePoints, countCodePoints } from '../utils/splitByCodePoints';
+import { splitByCodePoints, countCodePoints, smartSplit } from '../utils/splitByCodePoints';
 
 interface UseTextSplitterResult {
   normalizedText: string;
@@ -8,10 +8,21 @@ interface UseTextSplitterResult {
   totalCodePoints: number;
 }
 
-export const useTextSplitter = (text: string, chunkSize: number): UseTextSplitterResult => {
+interface UseTextSplitterOptions {
+  isSmartSplit: boolean;
+  delimiters: string[];
+}
+
+export const useTextSplitter = (
+  text: string,
+  chunkSize: number,
+  options: UseTextSplitterOptions = { isSmartSplit: false, delimiters: [] }
+): UseTextSplitterResult => {
   return useMemo(() => {
     const normalizedText = normalizeLineEndings(text);
-    const chunks = splitByCodePoints(normalizedText, chunkSize);
+    const chunks = options.isSmartSplit
+      ? smartSplit(normalizedText, chunkSize, options.delimiters)
+      : splitByCodePoints(normalizedText, chunkSize);
     const totalCodePoints = countCodePoints(normalizedText);
 
     return {
@@ -19,5 +30,5 @@ export const useTextSplitter = (text: string, chunkSize: number): UseTextSplitte
       chunks,
       totalCodePoints,
     };
-  }, [text, chunkSize]);
+  }, [text, chunkSize, options.isSmartSplit, options.delimiters]);
 };

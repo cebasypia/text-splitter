@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextInput } from './components/TextInput';
-import { ChunkSizeInput } from './components/ChunkSizeInput';
+import { SplitSettings } from './components/SplitSettings';
 import { ClearButton } from './components/ClearButton';
 import { ChunkList } from './components/ChunkList';
 import { useTextSplitter } from './hooks/useTextSplitter';
@@ -9,8 +9,13 @@ import { Scissors } from 'lucide-react';
 const App: React.FC = () => {
   const [inputText, setInputText] = useState('');
   const [chunkSize, setChunkSize] = useState(2000);
+  const [isSmartSplit, setIsSmartSplit] = useState(true);
+  const [delimiters, setDelimiters] = useState(['\n', '。', '.']);
 
-  const { chunks, totalCodePoints } = useTextSplitter(inputText, chunkSize);
+  const { chunks, totalCodePoints } = useTextSplitter(inputText, chunkSize, {
+    isSmartSplit,
+    delimiters,
+  });
 
   const handleClear = () => {
     setInputText('');
@@ -33,11 +38,18 @@ const App: React.FC = () => {
 
         <main className="space-y-8">
           <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-end">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-start">
               <div className="md:col-span-3">
-                <ChunkSizeInput value={chunkSize} onChange={setChunkSize} />
+                <SplitSettings
+                  chunkSize={chunkSize}
+                  onChunkSizeChange={setChunkSize}
+                  isSmartSplit={isSmartSplit}
+                  onSmartSplitChange={setIsSmartSplit}
+                  delimiters={delimiters}
+                  onDelimitersChange={setDelimiters}
+                />
               </div>
-              <div className="flex justify-end">
+              <div className="flex justify-end pt-1">
                 <ClearButton onClear={handleClear} />
               </div>
             </div>
