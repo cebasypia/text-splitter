@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { Copy, Check, ChevronDown, ChevronUp } from "lucide-react";
+import { Copy, ChevronDown, ChevronUp } from "lucide-react";
 import { useClipboard } from "../hooks/useClipboard";
+import { useToast } from "./Toast";
 import { countCodePoints } from "../utils/splitByCodePoints";
 
 interface ChunkCardProps {
@@ -22,6 +23,7 @@ export const ChunkCard: React.FC<ChunkCardProps> = ({
 }) => {
   const [isExpanded, setIsExpanded] = useState(false);
   const { copy, copied } = useClipboard();
+  const { showToast } = useToast();
   const charCount = countCodePoints(content);
 
   const previewLength = 100;
@@ -32,6 +34,7 @@ export const ChunkCard: React.FC<ChunkCardProps> = ({
 
   const handleCopyAndNext = () => {
     copy(content);
+    showToast("コピーしました！");
     if (onNext) {
       setTimeout(onNext, 300);
     }
@@ -42,6 +45,7 @@ export const ChunkCard: React.FC<ChunkCardProps> = ({
       handleCopyAndNext();
     } else {
       copy(content);
+      showToast("コピーしました！");
     }
   };
 
@@ -68,20 +72,14 @@ export const ChunkCard: React.FC<ChunkCardProps> = ({
         </div>
 
         <div
-          className={`flex items-center rounded-lg overflow-hidden border transition-all ${
-            copied
-              ? "bg-green-100 border-green-200"
-              : "bg-blue-600 border-blue-600 hover:bg-blue-700 active:scale-[0.98]"
-          }`}
+          className="flex items-center rounded-lg overflow-hidden border transition-all bg-blue-600 border-blue-600 hover:bg-blue-700 active:scale-[0.98]"
         >
           <button
             onClick={handleCopy}
-            className={`flex items-center gap-2 px-4 py-1.5 text-sm font-medium transition-colors ${
-              copied ? "text-green-700" : "text-white"
-            }`}
+            className="flex items-center gap-2 px-4 py-1.5 text-sm font-medium transition-colors text-white"
           >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
-            {copied ? "コピーしました" : "コピー"}
+            <Copy size={16} />
+            コピー
           </button>
         </div>
       </div>

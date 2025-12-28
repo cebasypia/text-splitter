@@ -4,6 +4,7 @@ import { SplitSettings } from './components/SplitSettings';
 import { ChunkList } from './components/ChunkList';
 import { useTextSplitter } from './hooks/useTextSplitter';
 import { Scissors } from 'lucide-react';
+import { ToastProvider } from './components/Toast';
 
 const App: React.FC = () => {
   const [inputText, setInputText] = useState('');
@@ -21,49 +22,51 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <header className="mb-8 text-center">
-          <div className="flex justify-center items-center gap-2 mb-2">
-            <div className="bg-blue-600 p-2 rounded-lg text-white">
-              <Scissors size={24} />
+    <ToastProvider>
+      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-4xl mx-auto">
+          <header className="mb-8 text-center">
+            <div className="flex justify-center items-center gap-2 mb-2">
+              <div className="bg-blue-600 p-2 rounded-lg text-white">
+                <Scissors size={24} />
+              </div>
+              <h1 className="text-3xl font-extrabold text-gray-900">Text Splitter</h1>
             </div>
-            <h1 className="text-3xl font-extrabold text-gray-900">Text Splitter</h1>
-          </div>
-          <p className="text-gray-600">
-            長文をコードポイント単位で指定長に分割し、ワンクリックでコピーできます。
-          </p>
-        </header>
+            <p className="text-gray-600">
+              長文をコードポイント単位で指定長に分割し、ワンクリックでコピーできます。
+            </p>
+          </header>
 
-        <main className="space-y-8">
-          <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
-            <SplitSettings
-              chunkSize={chunkSize}
-              onChunkSizeChange={setChunkSize}
-              isSmartSplit={isSmartSplit}
-              onSmartSplitChange={setIsSmartSplit}
-              delimiters={delimiters}
-              onDelimitersChange={setDelimiters}
-            />
+          <main className="space-y-8">
+            <section className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 space-y-6">
+              <SplitSettings
+                chunkSize={chunkSize}
+                onChunkSizeChange={setChunkSize}
+                isSmartSplit={isSmartSplit}
+                onSmartSplitChange={setIsSmartSplit}
+                delimiters={delimiters}
+                onDelimitersChange={setDelimiters}
+              />
 
-            <TextInput
-              value={inputText}
-              onChange={setInputText}
-              onClear={handleClear}
-              count={totalCodePoints}
-            />
-          </section>
+              <TextInput
+                value={inputText}
+                onChange={setInputText}
+                onClear={handleClear}
+                count={totalCodePoints}
+              />
+            </section>
 
-          <section>
-            <ChunkList chunks={chunks} />
-          </section>
-        </main>
+            <section>
+              <ChunkList chunks={chunks} />
+            </section>
+          </main>
 
-        <footer className="mt-16 text-center text-gray-400 text-sm">
-          <p>&copy; {new Date().getFullYear()} Text Splitter. Built for efficiency.</p>
-        </footer>
+          <footer className="mt-16 text-center text-gray-400 text-sm">
+            <p>&copy; {new Date().getFullYear()} Text Splitter. Built for efficiency.</p>
+          </footer>
+        </div>
       </div>
-    </div>
+    </ToastProvider>
   );
 };
 
