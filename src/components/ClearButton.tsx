@@ -9,10 +9,11 @@ export const ClearButton: React.FC<ClearButtonProps> = ({ onClear }) => {
   return (
     <button
       onClick={onClear}
-      className="flex items-center gap-2 px-4 py-2 bg-red-50 text-red-600 border border-red-200 rounded-lg hover:bg-red-100 transition-colors"
+      title="入力をクリア"
+      aria-label="入力をクリア"
+      className="p-1.5 text-red-400 hover:text-red-600 hover:bg-red-50 rounded-md transition-all"
     >
-      <Trash2 size={18} />
-      <span>クリア</span>
+      <Trash2 size={16} strokeWidth={2} />
     </button>
   );
 };

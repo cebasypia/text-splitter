@@ -167,7 +167,7 @@ export const SplitSettings: React.FC<SplitSettingsProps> = ({
               value={inputValue}
               onChange={(e) => setInputValue(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder="例: 。 ( \n で改行 )"
+              placeholder="例: 。"
             />
             <button
               type="button"

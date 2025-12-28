@@ -1,18 +1,23 @@
 import React from 'react';
+import { ClearButton } from './ClearButton';
 
 interface TextInputProps {
   value: string;
   onChange: (value: string) => void;
+  onClear: () => void;
   count: number;
 }
 
-export const TextInput: React.FC<TextInputProps> = ({ value, onChange, count }) => {
+export const TextInput: React.FC<TextInputProps> = ({ value, onChange, onClear, count }) => {
   return (
     <div className="flex flex-col gap-2">
       <div className="flex justify-between items-center">
-        <label htmlFor="input-text" className="font-bold text-gray-700">
-          入力テキスト
-        </label>
+        <div className="flex items-center gap-2">
+          <label htmlFor="input-text" className="font-bold text-gray-700">
+            入力テキスト
+          </label>
+          {value && <ClearButton onClear={onClear} />}
+        </div>
         <span className="text-sm text-gray-500">
           文字数: <span className="font-mono font-bold text-blue-600">{count}</span> (code points)
         </span>
